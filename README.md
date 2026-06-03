@@ -84,7 +84,7 @@ Found a missing command? Wrong description? PRs are welcome.
 
 ## License
 
-MIT — do whatever you want with it.
+Do whatever you want with it.
 
 ---
 
