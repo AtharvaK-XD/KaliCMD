@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kali Linux Commands — A–Z Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #181818;
+    --bg4: #202020;
+    --border: #2a2a2a;
+    --border2: #333;
+    --text: #e8e8e8;
+    --text2: #888;
+    --text3: #555;
+    --accent: #00ff88;
+    --accent-dim: rgba(0,255,136,0.08);
+    --accent-dim2: rgba(0,255,136,0.15);
+    --max: 1200px;
+    --pad: 40px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+  /* Universal centered wrapper */
+  .wrap {
+    width: 100%;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--pad);
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.96);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 17px;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .logo-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.3; transform:scale(0.65); }
+  }
+  .header-meta {
+    font-size: 12px;
+    color: var(--text3);
+  }
+  .header-meta span { color: var(--accent); }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(180deg, #0e0e0e 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 52px 0 40px;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid rgba(0,255,136,0.2);
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(30px, 4vw, 52px);
+    color: #fff;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    margin-bottom: 14px;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero p {
+    font-size: 13px;
+    color: var(--text2);
+    max-width: 480px;
+    line-height: 1.75;
+  }
+
+  /* ─── STATS BAR ─── */
+  .stats-bar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 0;
+  }
+  .stats-inner {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+  }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    color: var(--accent);
+    letter-spacing: -1px;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .stat-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--border);
+  }
+
+  /* ─── SEARCH ─── */
+  .search-bar {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+  }
+  .search-inner {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .search-wrap {
+    position: relative;
+    flex: 1;
+  }
+  .search-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 15px;
+    pointer-events: none;
+  }
+  #search {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 10px 14px 10px 38px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  #search:focus { border-color: var(--accent); background: var(--bg4); }
+  #search::placeholder { color: var(--text3); }
+  .kbd-hint {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+    color: var(--text3);
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 3px;
+    pointer-events: none;
+  }
+  .btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 10px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  #search-count {
+    font-size: 11px;
+    color: var(--text3);
+    white-space: nowrap;
+    min-width: 90px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ─── LETTER NAV ─── */
+  .letter-nav-bar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+  }
+  .letter-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .nav-letter {
+    width: 34px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text3);
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+    font-family: 'Syne', sans-serif;
+  }
+  .nav-letter:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* ─── MAIN ─── */
+  .content {
+    padding: 28px 0 80px;
+  }
+
+  /* ─── LETTER SECTIONS ─── */
+  .letter-section {
+    margin-bottom: 7px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .letter-section:hover { border-color: var(--border2); }
+  .letter-section.has-results { border-color: rgba(0,255,136,0.25); }
+
+  .letter-toggle {
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    background: var(--bg2);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: var(--text);
+    transition: background 0.15s;
+  }
+  .letter-toggle:hover { background: var(--bg3); }
+
+  .letter-badge {
+    width: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-right: 1px solid var(--border);
+    flex-shrink: 0;
+    padding: 14px 0;
+  }
+  .letter-info {
+    flex: 1;
+    padding: 14px 18px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+  }
+  .letter-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .letter-sub {
+    font-size: 11px;
+    color: var(--text3);
+  }
+  .letter-sub .cmd-count { color: var(--accent); font-weight: 500; }
+
+  .toggle-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 16px;
+    color: var(--text3);
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), color 0.15s;
+    flex-shrink: 0;
+  }
+  .letter-section.open .toggle-arrow {
+    transform: rotate(180deg);
+    color: var(--accent);
+  }
+
+  /* ─── CMD LIST ─── */
+  .cmd-list {
+    display: none;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+  }
+  .letter-section.open .cmd-list { display: block; }
+
+  .cmd-item {
+    display: grid;
+    grid-template-columns: 200px 1fr 40px;
+    align-items: stretch;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+  .cmd-item:last-child { border-bottom: none; }
+  .cmd-item:hover { background: var(--bg3); }
+  .cmd-item.hidden { display: none; }
+
+  .cmd-name {
+    padding: 11px 16px 11px 22px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .prompt { color: var(--text3); font-size: 11px; font-weight: 300; flex-shrink: 0; }
+
+  .cmd-desc {
+    padding: 11px 12px 11px 18px;
+    font-size: 12.5px;
+    color: var(--text2);
+    line-height: 1.55;
+    display: flex;
+    align-items: center;
+  }
+  .cmd-desc mark {
+    background: rgba(0,255,136,0.2);
+    color: var(--accent);
+    border-radius: 2px;
+    padding: 0 2px;
+  }
+
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    border-left: 1px solid var(--border);
+    cursor: pointer;
+    color: var(--text3);
+    font-size: 14px;
+    transition: color 0.15s, background 0.15s;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .copy-btn:hover { color: var(--accent); background: var(--accent-dim); }
+  .copy-btn.copied { color: var(--accent); }
+
+  /* ─── NO RESULTS ─── */
+  .no-results {
+    padding: 60px 0;
+    text-align: center;
+    color: var(--text3);
+    font-size: 13px;
+    display: none;
+  }
+  .no-results .nr-icon { font-size: 36px; margin-bottom: 12px; }
+
+  /* ─── TOAST ─── */
+  #toast {
+    position: fixed;
+    bottom: 24px;
+    right: 28px;
+    background: var(--bg3);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 10px 18px;
+    border-radius: 4px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.2s;
+    pointer-events: none;
+    z-index: 999;
+  }
+  #toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 20px 0;
+  }
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text3);
+  }
+  footer span { color: var(--accent); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    :root { --pad: 16px; }
+    .cmd-item { grid-template-columns: 150px 1fr 36px; }
+    .stats-inner { gap: 20px; flex-wrap: wrap; }
+    .stat-divider { display: none; }
+    .search-inner { flex-wrap: wrap; }
+    #search-count { min-width: auto; text-align: left; }
+    .header-meta { font-size: 11px; }
+  }
+  @media (max-width: 480px) {
+    .cmd-item { grid-template-columns: 120px 1fr 34px; }
+    .cmd-name { padding-left: 14px; font-size: 12px; }
+    .hero h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="wrap">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-dot"></div>
+        KaliCMD
+      </div>
+      <div class="header-meta">
+        <span id="h-count">256</span> commands &nbsp;·&nbsp; A–Z Reference
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-tag">&#x25CF;&nbsp; Kali Linux</div>
+    <h1>A–Z Command<br><span class="accent">Reference</span></h1>
+    <p>Every Kali Linux command in one place. Search, browse by letter, or copy any command instantly.</p>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="wrap">
+    <div class="stats-inner">
+      <div class="stat">
+        <div class="stat-num" id="s-commands">256</div>
+        <div class="stat-label">Total Commands</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">24</div>
+        <div class="stat-label">Letters Covered</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num" id="s-copied">0</div>
+        <div class="stat-label">Copied</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-bar">
+  <div class="wrap">
+    <div class="search-inner">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="search" id="search" placeholder="Search commands or descriptions…" autocomplete="off">
+        <span class="kbd-hint">/ to focus</span>
+      </div>
+      <button class="btn" onclick="toggleAll(true)">Expand All</button>
+      <button class="btn" onclick="toggleAll(false)">Collapse All</button>
+      <div id="search-count"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LETTER NAV -->
+<div class="letter-nav-bar">
+  <div class="wrap">
+    <div class="letter-nav" id="letter-nav"></div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+  <div class="wrap">
+    <div id="cmd-sections"></div>
+    <div class="no-results" id="no-results">
+      <div class="nr-icon">∅</div>
+      No commands match your search.
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div>KaliCMD &nbsp;·&nbsp; <span>256</span> commands indexed</div>
+      <div>Press <span>/</span> to search &nbsp;·&nbsp; <span>Esc</span> to clear</div>
+    </div>
+  </div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+const data = {
+  A:[["apropos","Search help manual pages (man -k)"],["apt-get","Search for and install software packages (Debian)"],["aptitude","Search for and install software packages (Debian)"],["aspell","Spell Checker"],["awk","Find and replace text, database sort/validate/index"]],
+  B:[["basename","Strip directory and suffix from filenames"],["bash","GNU Bourne-Again Shell"],["bc","Arbitrary precision calculator language"],["bg","Send to background"],["break","Exit from a loop"],["builtin","Run a shell builtin"],["bzip2","Compress or decompress named files"]],
+  C:[["cal","Display a calendar"],["case","Conditionally perform a command"],["cat","Concatenate and print (display) the content of files"],["cd","Change directory"],["cfdisk","Partition table manipulator for Linux"],["chgrp","Change group ownership"],["chmod","Change access permissions"],["chown","Change file owner and group"],["chroot","Run a command with a different root directory"],["chkconfig","System services (runlevel)"],["cksum","Print CRC checksum and byte counts"],["clear","Clear terminal screen"],["cmp","Compare two files"],["comm","Compare two sorted files line by line"],["command","Run a command — ignoring shell functions"],["continue","Resume the next iteration of a loop"],["cp","Copy one or more files to another location"],["cron","Daemon to execute scheduled commands"],["crontab","Schedule a command to run at a later time"],["csplit","Split a file into context-determined pieces"],["cut","Divide a file into several parts"]],
+  D:[["date","Display or change the date and time"],["dc","Desk calculator"],["dd","Convert and copy a file, write disk headers, boot records"],["ddrescue","Data recovery tool"],["declare","Declare variables and give them attributes"],["df","Display free disk space"],["diff","Display the differences between two files"],["diff3","Show differences among three files"],["dig","DNS lookup"],["dir","Briefly list directory contents"],["dircolors","Colour setup for ls"],["dirname","Convert a full pathname to just a path"],["dirs","Display list of remembered directories"],["dmesg","Print kernel and driver messages"],["du","Estimate file space usage"]],
+  E:[["echo","Display message on screen"],["egrep","Search files for lines that match an extended expression"],["eject","Eject removable media"],["enable","Enable and disable builtin shell commands"],["env","Environment variables"],["ethtool","Ethernet card settings"],["eval","Evaluate several commands/arguments"],["exec","Execute a command"],["exit","Exit the shell"],["expect","Automate arbitrary applications accessed over a terminal"],["expand","Convert tabs to spaces"],["export","Set an environment variable"],["expr","Evaluate expressions"]],
+  F:[["false","Do nothing, unsuccessfully"],["fdformat","Low-level format a floppy disk"],["fdisk","Partition table manipulator for Linux"],["fg","Send job to foreground"],["fgrep","Search files for lines that match a fixed string"],["file","Determine file type"],["find","Search for files that meet a desired criteria"],["fmt","Reformat paragraph text"],["fold","Wrap text to fit a specified width"],["for","Expand words and execute commands"],["format","Format disks or tapes"],["free","Display memory usage"],["fsck","File system consistency check and repair"],["ftp","File Transfer Protocol"],["function","Define function macros"],["fuser","Identify/kill the process that is accessing a file"]],
+  G:[["gawk","Find and replace text within files"],["getopts","Parse positional parameters"],["grep","Search files for lines that match a given pattern"],["groupadd","Add a user security group"],["groupdel","Delete a group"],["groupmod","Modify a group"],["groups","Print group names a user is in"],["gzip","Compress or decompress named files"]],
+  H:[["hash","Remember the full pathname of a name argument"],["head","Output the first part of files"],["help","Display help for a built-in command"],["history","Command history"],["hostname","Print or set system name"]],
+  I:[["iconv","Convert the character set of a file"],["id","Print user and group IDs"],["if","Conditionally perform a command"],["ifconfig","Configure a network interface"],["ifdown","Stop a network interface"],["ifup","Start a network interface up"],["import","Capture an X server screen and save the image to file"],["install","Copy files and set attributes"]],
+  J:[["jobs","List active jobs"],["join","Join lines on a common field"]],
+  K:[["kill","Stop a process from running"],["killall","Kill processes by name"]],
+  L:[["less","Display output one screen at a time"],["let","Perform arithmetic on shell variables"],["ln","Create a symbolic link to a file"],["local","Create variables"],["locate","Find files"],["logname","Print current login name"],["logout","Exit a login shell"],["look","Display lines beginning with a given string"],["lpc","Line printer control program"],["lpr","Off line print"],["lprint","Print a file"],["lprintd","Abort a print job"],["lprintq","List the print queue"],["lprm","Remove jobs from the print queue"],["ls","List information about files"],["lsof","List open files"]],
+  M:[["make","Recompile a group of programs"],["man","Help manual"],["mkdir","Create new folders"],["mkfifo","Make FIFOs (named pipes)"],["mkisofs","Create a hybrid ISO9660/JOLIET/HFS filesystem"],["mknod","Make block or character special files"],["more","Display output one screen at a time"],["mount","Mount a file system"],["mtools","Manipulate MS-DOS files"],["mtr","Network diagnostics (traceroute/ping)"],["mv","Move or rename files or directories"],["mmv","Mass move and rename files"]],
+  N:[["netstat","Networking information"],["nice","Set the priority of a command or job"],["nl","Number lines and write files"],["nohup","Run a command immune to hangups"],["notify-send","Send desktop notifications"],["nslookup","Query Internet name servers interactively"]],
+  O:[["open","Open a file in its default application"],["op","Operator access"]],
+  P:[["passwd","Modify a user password"],["paste","Merge lines of files"],["pathchk","Check file name portability"],["ping","Test a network connection"],["pkill","Stop processes from running"],["popd","Restore the previous value of the current directory"],["pr","Prepare files for printing"],["printcap","Printer capability database"],["printenv","Print environment variables"],["printf","Format and print data"],["ps","Process status"],["pushd","Save and then change the current directory"],["pwd","Print working directory"]],
+  Q:[["quota","Display disk usage and limits"],["quotacheck","Scan a file system for disk usage"],["quotactl","Set disk quotas"]],
+  R:[["ram","Ram disk device"],["rcp","Copy files between two machines"],["read","Read a line from standard input"],["readarray","Read from stdin into an array variable"],["readonly","Mark variables/functions as readonly"],["reboot","Reboot the system"],["rename","Rename files"],["renice","Alter priority of running processes"],["remsync","Synchronize remote files via email"],["return","Exit a shell function"],["rev","Reverse lines of a file"],["rm","Remove files"],["rmdir","Remove folders"],["rsync","Remote file copy (synchronize file trees)"]],
+  S:[["screen","Multiplex terminal, run remote shells via SSH"],["scp","Secure copy (remote file copy)"],["sdiff","Merge two files interactively"],["sed","Stream editor"],["select","Accept keyboard input"],["seq","Print numeric sequences"],["set","Manipulate shell variables and functions"],["sftp","Secure File Transfer Program"],["shift","Shift positional parameters"],["shopt","Shell options"],["shutdown","Shutdown or restart Linux"],["sleep","Delay for a specified time"],["slocate","Find files"],["sort","Sort text files"],["source","Run commands from a file"],["split","Split a file into fixed-size pieces"],["ssh","Secure Shell client (remote login program)"],["strace","Trace system calls and signals"],["su","Substitute user identity"],["sudo","Execute a command as another user"],["sum","Print a checksum for a file"],["suspend","Suspend execution of this shell"],["symlink","Make a new name for a file"],["sync","Synchronize data on disk with memory"]],
+  T:[["tail","Output the last part of a file"],["tar","Tape archiver"],["tee","Redirect output to multiple files"],["test","Evaluate a conditional expression"],["time","Measure program running time"],["times","User and system times"],["touch","Change file timestamps"],["top","List processes running on the system"],["traceroute","Trace route to host"],["trap","Run a command when a signal is set (Bourne)"],["tr","Translate, squeeze, and/or delete characters"],["true","Do nothing, successfully"],["tsort","Topological sort"],["tty","Print filename of terminal on stdin"],["type","Describe a command"]],
+  U:[["ulimit","Limit user resources"],["umask","Users file creation mask"],["umount","Unmount a device"],["unalias","Remove an alias"],["uname","Print system information"],["unexpand","Convert spaces to tabs"],["uniq","Uniquify files"],["units","Convert units from one scale to another"],["unset","Remove variable or function names"],["unshar","Unpack shell archive scripts"],["until","Execute commands (until error)"],["uptime","Show uptime"],["useradd","Create new user account"],["usermod","Modify user account"],["users","List users currently logged in"],["uuencode","Encode a binary file"],["uudecode","Decode a file created by uuencode"]],
+  V:[["v","Verbosely list directory contents (ls -l -b)"],["vdir","Verbosely list directory contents (ls -l -b)"],["vi","Text editor"],["vmstat","Report virtual memory statistics"]],
+  W:[["wait","Wait for a process to complete"],["watch","Execute/display a program periodically"],["wc","Print byte, word, and line counts"],["whereis","Search the user's $path, man pages and source files for a program"],["which","Search the user's $path for a program file"],["while","Execute commands"],["who","Print all usernames currently logged in"],["whoami","Print the current user id and name (id -un)"],["wget","Retrieve web pages or files via HTTP, HTTPS or FTP"],["write","Send a message to another user"]],
+  X:[["xargs","Execute utility, passing constructed argument lists"],["xdg-open","Open a file or URL in the user's preferred application"]],
+  Y:[["yes","Print a string until interrupted"]]
+};
+
+let copyCount = 0;
+let toastTimer;
+
+// Count and display total
+const total = Object.values(data).reduce((s,v) => s + v.length, 0);
+document.getElementById('s-commands').textContent = total;
+document.getElementById('h-count').textContent = total;
+
+// Build letter nav
+const navEl = document.getElementById('letter-nav');
+Object.keys(data).forEach(l => {
+  const a = document.createElement('a');
+  a.href = '#sec-' + l;
+  a.className = 'nav-letter';
+  a.textContent = l;
+  navEl.appendChild(a);
+});
+
+// Build sections
+const container = document.getElementById('cmd-sections');
+Object.entries(data).forEach(([letter, cmds]) => {
+  const sec = document.createElement('div');
+  sec.className = 'letter-section';
+  sec.id = 'sec-' + letter;
+
+  const rows = cmds.map(([name, desc]) => `
+    <div class="cmd-item" data-name="${name.toLowerCase()}" data-desc="${desc.toLowerCase()}">
+      <div class="cmd-name"><span class="prompt">$</span>${name}</div>
+      <div class="cmd-desc">${desc}</div>
+      <button class="copy-btn" title="Copy ${name}" onclick="copyCmd(this,'${name}')">⎘</button>
+    </div>
+  `).join('');
+
+  sec.innerHTML = `
+    <button class="letter-toggle" onclick="this.closest('.letter-section').classList.toggle('open')">
+      <div class="letter-badge">${letter}</div>
+      <div class="letter-info">
+        <div class="letter-title">Commands starting with ${letter}</div>
+        <div class="letter-sub"><span class="cmd-count">${cmds.length}</span> command${cmds.length > 1 ? 's' : ''}</div>
+      </div>
+      <div class="toggle-arrow">▾</div>
+    </button>
+    <div class="cmd-list">${rows}</div>
+  `;
+
+  container.appendChild(sec);
+});
+
+// Toggle all
+function toggleAll(open) {
+  document.querySelectorAll('.letter-section').forEach(sec => {
+    sec.classList[open ? 'add' : 'remove']('open');
+  });
+}
+
+// Copy command
+function copyCmd(btn, name) {
+  navigator.clipboard.writeText(name).then(() => {
+    btn.classList.add('copied');
+    btn.textContent = '✓';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '⎘'; }, 1500);
+    copyCount++;
+    document.getElementById('s-copied').textContent = copyCount;
+    showToast('Copied: ' + name);
+  });
+}
+
+// Toast
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = '✓ ' + msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// Highlight helper
+function highlight(text, q) {
+  const i = text.toLowerCase().indexOf(q);
+  if (i === -1) return text;
+  return text.slice(0, i) + '<mark>' + text.slice(i, i + q.length) + '</mark>' + text.slice(i + q.length);
+}
+
+// Search
+document.getElementById('search').addEventListener('input', function () {
+  const q = this.value.trim().toLowerCase();
+  let visible = 0;
+
+  document.querySelectorAll('.letter-section').forEach(sec => {
+    let secVisible = 0;
+    sec.querySelectorAll('.cmd-item').forEach(row => {
+      const matchName = row.dataset.name.includes(q);
+      const matchDesc = row.dataset.desc.includes(q);
+      const match = !q || matchName || matchDesc;
+      row.classList.toggle('hidden', !match);
+
+      // Restore original text from data attributes before re-highlighting
+      const nameEl = row.querySelector('.cmd-name');
+      const descEl = row.querySelector('.cmd-desc');
+      // Get clean original from data attributes
+      const origName = row.dataset.name; // lowercase, use for highlight
+      const origDesc = row.dataset.desc;
+      // Use proper-case from rendered text (strip prompt)
+      const displayName = nameEl.textContent.replace(/^\$\s*/, '').trim();
+      const displayDesc = descEl.textContent.trim();
+
+      if (q) {
+        nameEl.innerHTML = '<span class="prompt">$ </span>' + highlight(displayName, q);
+        descEl.innerHTML = highlight(displayDesc, q);
+      } else {
+        nameEl.innerHTML = '<span class="prompt">$ </span>' + displayName;
+        descEl.textContent = displayDesc;
+      }
+
+      if (match) secVisible++;
+    });
+
+    if (q) {
+      sec.style.display = secVisible > 0 ? '' : 'none';
+      sec.classList.toggle('open', secVisible > 0);
+      sec.classList.toggle('has-results', secVisible > 0);
+    } else {
+      sec.style.display = '';
+      sec.classList.remove('open', 'has-results');
+    }
+    visible += secVisible;
+  });
+
+  document.getElementById('search-count').textContent = q ? `${visible} result${visible !== 1 ? 's' : ''} found` : '';
+  document.getElementById('no-results').style.display = q && visible === 0 ? 'block' : 'none';
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    document.getElementById('search').focus();
+  }
+  if (e.key === 'Escape') {
+    const s = document.getElementById('search');
+    s.value = '';
+    s.dispatchEvent(new Event('input'));
+    s.blur();
+  }
+});
+</script>
+</body>
+</html>
