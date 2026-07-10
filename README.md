@@ -81,5 +81,3 @@ Found a missing command? Wrong description? PRs are welcome.
 3. Open a pull request with a brief description
 
 ---
-
-<p align="center">Made for pentesters, students, and anyone who keeps forgetting flags.</p>
