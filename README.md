@@ -82,10 +82,4 @@ Found a missing command? Wrong description? PRs are welcome.
 
 ---
 
-## License
-
-Do whatever you want with it.
-
----
-
 <p align="center">Made for pentesters, students, and anyone who keeps forgetting flags.</p>
